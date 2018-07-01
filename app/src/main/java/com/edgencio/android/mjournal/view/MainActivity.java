@@ -153,15 +153,7 @@ public class MainActivity extends AppCompatActivity
 
 
     public void showEntries() {
-        Entry entry1 = new Entry("ALC LESSON", "Learn as much as i can on ALC", new Date(), new Date(), new Date());
-        Entry entry2 = new Entry("UDACITY LEARNING", "Learn as much as i can on ALC", new Date(), new Date(), new Date());
-        Entry entry3 = new Entry("GDG MAPUTO", "Learn as much as i can on ALC", new Date(), new Date(), new Date());
-
         List<Entry> entries = new ArrayList();
-  /*    entries.add(entry1);
-        entries.add(entry2);
-        entries.add(entry3);*/
-
         entries = mPresenter.loadEntries();
         if (entries != null) {
             mEntryListAdapter.replaceData(entries);
@@ -189,6 +181,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showEntryClickedMessage(Entry entry) {
+
+        Log.e("WORKS", "works");
+
+        Bundle bundle= new Bundle();
+        bundle.putInt("id",entry.getId());
+        bundle.putString("topic", entry.getTopic());
+        bundle.putString("description", entry.getDescription());
+        Intent intent = new Intent(this, NewEntryActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
 
     }
 

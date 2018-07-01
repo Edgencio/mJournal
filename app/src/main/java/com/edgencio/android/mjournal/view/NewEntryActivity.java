@@ -23,6 +23,7 @@ public class NewEntryActivity extends AppCompatActivity {
 
     Button btnSave;
     EditText edtTopic, edtDescription;
+    private int id = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,20 @@ public class NewEntryActivity extends AppCompatActivity {
         edtTopic = (EditText) findViewById(R.id.edt_topic);
         edtDescription = (EditText) findViewById(R.id.edt_description);
 
+        Bundle bundle = getIntent().getExtras();
+
+        String topic = "";
+        String description = "";
+        if (bundle != null) {
+            topic = bundle.getString("username");
+            description = bundle.getString("email");
+            id = bundle.getInt("id");
+
+            edtTopic.setText(topic);
+            edtDescription.setText(description);
+
+        }
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,12 +68,16 @@ public class NewEntryActivity extends AppCompatActivity {
                 entry.setCreatedAt(new Date());
                 entry.setIsArquived(0);
                 entry.setTopic(edtTopic.getText().toString());
-                entry.setUpdatedAt(new Date ());
-                entry.setScheduledTo(new Date ());
+                entry.setUpdatedAt(new Date());
+                entry.setScheduledTo(new Date());
                 entry.setDescription(edtDescription.getText().toString());
 
-                entryImplementation.saveEntry(entry);
-                Toast.makeText(v.getContext(),"Entry Successful created",Toast.LENGTH_LONG).show();
+                if (id == 0) {
+                    entryImplementation.saveEntry(entry);
+                } else {
+                    entryImplementation.updateEntry(entry);
+                }
+                Toast.makeText(v.getContext(), "Entry Successful created", Toast.LENGTH_LONG).show();
 
             }
         });
